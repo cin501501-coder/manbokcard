@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>만복이네 떡집 - 이야기 간추리기 활동</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- 상단 헤더 배너 -->
+  <header class="top-banner">
+    <div class="banner-content">
+      <h1 class="site-title">
+        <span>🍡 만복이네 떡집</span>
+        <span class="badge-tag">초등 3학년 국어</span>
+        <span>세 장면 이야기 간추리기 📖</span>
+      </h1>
+      <p class="site-subtitle">
+        19장의 그림 카드 중에서 이야기의 흐름을 가장 잘 나타내는 <strong>중요한 사건 카드 3장</strong>을 골라 이야기를 간추려보아요!
+      </p>
+
+      <!-- 학생 정보 입력란 (인쇄 및 활동지용) -->
+      <div class="student-info-bar">
+        <label for="input-grade">초등학교</label>
+        <input type="text" id="input-grade" class="input-grade" value="3" title="학년" />
+        <label for="input-grade">학년</label>
+
+        <input type="text" id="input-class" class="input-class" placeholder="1" title="반" />
+        <label for="input-class">반</label>
+
+        <label for="input-name" style="margin-left: 10px;">이름:</label>
+        <input type="text" id="input-name" class="input-name" placeholder="홍길동" title="이름" />
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 본문 컨테이너 -->
+  <main class="container">
+
+    <!-- 활동 안내 및 꿀팁 상자 -->
+    <section class="guide-box">
+      <div class="guide-text">
+        <strong>💡 활동 안내 :</strong> 
+        먼저 아래 <strong>19장의 카드</strong>를 꼼꼼히 살펴보고, 마음에 드는 <strong>사건 카드 3장</strong>을 콕 찍어 골라보세요. 
+        그다음 고른 카드 3장 밑에 일어난 사건을 간단히 적으면 나만의 간추린 이야기가 완성됩니다!
+      </div>
+      <button type="button" class="btn-tip-modal" id="btn-tip-modal">
+        📖 이야기 간추리기 꿀팁 보기
+      </button>
+    </section>
+
+    <!-- 고정 조작 바 (선택 현황 + 컨트롤 버튼) -->
+    <section class="sticky-control-bar" aria-label="활동 도구 모음">
+      <div class="status-counter">
+        <span>선택한 카드:</span>
+        <span id="selected-count" style="color: #ea580c; font-weight: bold;">0</span> / 3장
+        <div class="counter-pills">
+          <div class="counter-dot" id="dot-1">1</div>
+          <div class="counter-dot" id="dot-2">2</div>
+          <div class="counter-dot" id="dot-3">3</div>
+        </div>
+      </div>
+
+      <div class="control-buttons">
+        <button type="button" class="btn btn-shuffle" id="btn-shuffle" title="19장의 카드를 무작위로 다시 섞습니다">
+          🔀 카드 다시 섞기
+        </button>
+        <button type="button" class="btn btn-jump-story" id="btn-scroll-story" title="내가 고른 카드로 바로 이동합니다">
+          ✍️ 이야기 쓰기로 이동
+        </button>
+        <button type="button" class="btn btn-reset" id="btn-reset" title="처음부터 다시 시작합니다">
+          🔄 처음부터 다시
+        </button>
+        <button type="button" class="btn btn-sound" id="btn-sound-toggle" title="효과음을 켜거나 끕니다">
+          🔊 소리 켜짐
+        </button>
+      </div>
+    </section>
+
+    <!-- 1단계: 19장의 그림 카드 갤러리 섹션 -->
+    <section id="gallery-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span>🎨 1단계: 사건 카드 고르기</span>
+          <span style="font-size: 1.1rem; color: #b45309; font-weight: normal;">(3장을 클릭해 보세요!)</span>
+        </h2>
+        <span class="section-subtitle">돋보기(🔍)를 누르면 그림을 더 크게 볼 수 있어요.</span>
+      </div>
+
+      <!-- 19장 카드 그리드 -->
+      <div class="card-gallery-grid" id="card-gallery-grid">
+        <!-- 자바스크립트로 19장 랜덤 카드 렌더링 -->
+      </div>
+    </section>
+
+    <!-- 2단계: 내가 고른 3장의 카드 & 사건 적기 작업대 섹션 -->
+    <section class="story-workspace-section" id="story-workspace">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span>📝 2단계: 내가 고른 카드 3장과 사건 적기</span>
+        </h2>
+        <span class="section-subtitle">◀ ▶ 버튼을 눌러 처음, 가운데, 끝 차례에 맞게 순서를 바꿀 수 있어요.</span>
+      </div>
+
+      <!-- 아직 카드를 고르지 않았을 때 나타나는 안내문 -->
+      <div class="empty-selection-notice" id="empty-selection-notice">
+        <div class="empty-icon">🎴</div>
+        <h3>아직 카드를 고르지 않았어요!</h3>
+        <p>위 갤러리에서 만복이네 떡집 이야기 중 마음에 드는 카드 <strong>3장</strong>을 골라주세요.</p>
+      </div>
+
+      <!-- 선택된 3장의 카드 슬롯과 입력창이 배치되는 그리드 -->
+      <div class="selected-cards-grid" id="selected-cards-grid" style="display: none;">
+        <!-- 자바스크립트로 3개 슬롯 동적 렌더링 -->
+      </div>
+    </section>
+
+    <!-- 3단계: 간추린 이야기 한눈에 보기 & 활동지 출력 -->
+    <section class="story-summary-section" id="summary-section">
+      <div class="summary-card-inner">
+        <h3 class="summary-headline">
+          <span>🌟 한눈에 보는 나의 간추린 이야기</span>
+        </h3>
+        <div class="summary-paragraph" id="summary-paragraph">
+          <span class="empty-tip">위에서 3장의 카드를 고르고 각 카드 밑에 일어난 사건을 적으면, 이곳에 간추려진 이야기가 멋지게 완성돼요! 🌟</span>
+        </div>
+
+        <!-- 하단 액션 버튼 -->
+        <div class="bottom-action-bar">
+          <button type="button" class="btn btn-print" id="btn-print" title="A4 학습지로 바로 인쇄하거나 PDF로 저장합니다">
+            🖨️ 활동지 인쇄하기 / PDF 저장
+          </button>
+          <button type="button" class="btn btn-copy" id="btn-copy" title="작성한 이야기 글을 복사합니다">
+            📋 간추린 이야기 복사하기
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 카드 크게 보기 모달 (줌) -->
+  <div class="modal-overlay" id="zoom-modal" role="dialog" aria-modal="true" aria-labelledby="modal-zoom-title">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="btn-close-zoom" title="닫기">✕</button>
+      <h3 id="modal-zoom-title" style="font-family: 'Jua', sans-serif; font-size: 1.4rem; color: #9a3412;">그림 카드</h3>
+      
+      <div class="zoom-image-wrapper">
+        <img id="modal-zoom-img" src="" alt="확대 그림" />
+      </div>
+
+      <p id="modal-zoom-desc" style="font-size: 1.05rem; color: #57534e; text-align: center; margin-bottom: 12px;"></p>
+
+      <div class="zoom-modal-actions">
+        <button type="button" class="btn btn-jump-story" id="modal-btn-select">이 카드 고르기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 이야기 간추리기 꿀팁 모달 -->
+  <div class="modal-overlay" id="tip-modal" role="dialog" aria-modal="true" aria-labelledby="tip-modal-title">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="btn-close-tip" title="닫기">✕</button>
+      <h3 class="tip-modal-header" id="tip-modal-title">
+        <span>💡 이야기를 잘 간추리는 3가지 비법!</span>
+      </h3>
+
+      <ul class="tip-steps-list">
+        <li class="tip-step-item">
+          <div class="tip-step-number">1</div>
+          <div class="tip-step-text">
+            <h4>중요한 사건을 골라요</h4>
+            <p>이야기에서 없어서는 안 될 가장 결정적인 사건 3가지를 골라보세요. (예: 만복이가 친구들과 싸운 일, 떡을 먹고 변화가 생긴 일 등)</p>
+          </div>
+        </li>
+        <li class="tip-step-item">
+          <div class="tip-step-number">2</div>
+          <div class="tip-step-text">
+            <h4>시간과 일어난 순서대로 늘어놓아요</h4>
+            <p><strong>[처음]</strong> - <strong>[가운데]</strong> - <strong>[끝]</strong>의 차례가 맞는지 ◀ ▶ 화살표 버튼으로 순서를 맞춰보세요.</p>
+          </div>
+        </li>
+        <li class="tip-step-item">
+          <div class="tip-step-number">3</div>
+          <div class="tip-step-text">
+            <h4>‘누가’, ‘무엇을’ 했는지 간단히 적어요</h4>
+            <p>길게 다 적으려고 하지 말고, <em>누가 어떤 일을 겪어서 어떻게 되었는지</em> 한두 문장으로 핵심만 알기 쉽게 정리해보세요!</p>
+          </div>
+        </li>
+      </ul>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <button type="button" class="btn btn-jump-story" onclick="closeTipModal()">
+          알겠어요, 이제 카드 골라볼래요! ✨
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 토스트 알림 메시지 -->
+  <div class="toast-notice" id="toast-notice" role="alert" aria-live="polite">
+    <span id="toast-text">카드를 골랐어요!</span>
+  </div>
+
+  <!-- 스크립트 연결 -->
+  <script src="script.js"></script>
+</body>
+</html>
